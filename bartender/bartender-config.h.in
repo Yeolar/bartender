@@ -1,0 +1,13 @@
+#pragma once
+
+/* meta */
+
+#define BAR_PACKAGE "@PROJECT_NAME@"
+#define BAR_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@"
+
+/* compile tests for keyword, lib, function, ... */
+
+/* gflags */
+
+#cmakedefine BAR_GFLAGS_NAMESPACE @BAR_GFLAGS_NAMESPACE@
+#cmakedefine BAR_UNUSUAL_GFLAGS_NAMESPACE 1
