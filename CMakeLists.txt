@@ -19,6 +19,7 @@ find_package(Threads REQUIRED)
 find_package(Boost REQUIRED COMPONENTS random regex thread)
 find_package(DoubleConversion REQUIRED)
 find_package(GFlags REQUIRED)
+find_package(Protobuf REQUIRED)
 find_package(Accelerator REQUIRED)
 find_package(Crystal REQUIRED)
 find_package(Raster3 REQUIRED)
@@ -41,13 +42,14 @@ link_libraries(
     ${Boost_LIBRARIES}
     ${DOUBLE_CONVERSION_LIBRARY}
     ${GFLAGS_LIBRARIES}
+    ${PROTOBUF_LIBRARIES}
     ${ACCELERATOR_LIBRARY}
     ${CRYSTAL_LIBRARY}
 )
 
 include_directories(
     ${PROJECT_SOURCE_DIR}
-    ${ACCELERATOR_INCLUDE_DIR}
+    ${RASTER3_INCLUDE_DIR}
 )
 
 # Check and setup configurations
@@ -78,24 +80,13 @@ configure_file(
 
 # Work on all sub directories
 add_subdirectory(bartender)
+add_subdirectory(bartender/apps/search)
 
-add_library(bartender_static STATIC
-  #    $<TARGET_OBJECTS:bartender_kv>
+add_library(bartender_app_search SHARED
+    $<TARGET_OBJECTS:bartender_app_search_obj>
 )
-set_target_properties(bartender_static PROPERTIES OUTPUT_NAME bartender)
 
-add_library(bartender_shared SHARED
-  #    $<TARGET_OBJECTS:bartender_kv>
-)
-set_target_properties(bartender_shared PROPERTIES OUTPUT_NAME bartender)
-
-install(TARGETS bartender_static
-    DESTINATION lib
-    PERMISSIONS OWNER_READ OWNER_WRITE
-                GROUP_READ
-                WORLD_READ
-)
-install(TARGETS bartender_shared
+install(TARGETS bartender_app_search
     DESTINATION lib
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
                 GROUP_READ GROUP_EXECUTE
