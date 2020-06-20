@@ -16,18 +16,17 @@
 
 #pragma once
 
-#include "raster/Task.h"
+#include <raster/Task.h>
 
-namespace raster {
+namespace bartender {
 
-class ComputeTask : public Task {
+class ComputeTask : public raster::Task {
  public:
-  ComputeTask(const Query& request, Result& response)
-      : Task(request, response) {}
+  ComputeTask(const raster::Context& context) : Task(context) {}
 
   void operator()() override {
     printf("Compute\n");
   }
 };
 
-} // namespace raster
+} // namespace bartender

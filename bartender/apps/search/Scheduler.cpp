@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-#include <raster/GraphScheduler.h>
+#include <raster/Scheduler.h>
 
 #include "ComputeTask.h"
 #include "QueryTask.h"
 #include "ResultTask.h"
 
-namespace raster {
+namespace bartender {
 
-void schedule(tf::Taskflow& taskflow, const Query& request, Result& response) {
-  auto A = taskflow.emplace(QueryTask(request, response));
-  auto B = taskflow.emplace(ComputeTask(request, response));
-  auto C = taskflow.emplace(ComputeTask(request, response));
-  auto D = taskflow.emplace(ResultTask(request, response));
+class SearchScheduler : public raster::Scheduler {
+ public:
+  void operator()(tf::Taskflow& taskflow,
+                  const raster::Context& context) const override {
+    auto A = taskflow.emplace(QueryTask(context));
+    auto B = taskflow.emplace(ComputeTask(context));
+    auto C = taskflow.emplace(ComputeTask(context));
+    auto D = taskflow.emplace(ResultTask(context));
 
-  A.precede(B);
-  A.precede(C);
-  B.precede(D);
-  C.precede(D);
-}
+    A.precede(B);
+    A.precede(C);
+    B.precede(D);
+    C.precede(D);
+  }
+};
 
-} // namespace raster
+RASTER_REG_SCHED(SearchScheduler);
+
+} // namespace bartender

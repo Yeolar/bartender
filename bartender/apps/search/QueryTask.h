@@ -16,19 +16,19 @@
 
 #pragma once
 
-#include "raster/Task.h"
+#include <raster/Task.h>
 
-namespace raster {
+namespace bartender {
 
-class QueryTask : public Task {
+class QueryTask : public raster::Task {
  public:
-  QueryTask(const Query& request, Result& response)
-      : Task(request, response) {}
+  QueryTask(const raster::Context& context) : Task(context) {}
 
   void operator()() override {
     printf("Query: %s, %s\n",
-           request_.traceid().c_str(), request_.query().c_str());
+           context_.request->traceid().c_str(),
+           context_.request->query().c_str());
   }
 };
 
-} // namespace raster
+} // namespace bartender

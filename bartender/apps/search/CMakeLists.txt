@@ -3,3 +3,5 @@
 file(GLOB BARTENDER_APPS_SEARCH_SRCS *.cpp)
 
 add_library(bartender_app_search_obj OBJECT ${BARTENDER_APPS_SEARCH_SRCS})
+
+install(DIRECTORY conf DESTINATION .)

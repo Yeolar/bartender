@@ -1,0 +1,5 @@
+{
+  dllib=lib/libbartender_app_search.dylib,
+  scheduler=SearchScheduler,
+  threadnum=10
+}
